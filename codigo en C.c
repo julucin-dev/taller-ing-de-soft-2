@@ -12,23 +12,24 @@ struct Persona {
 // Prototipos de funciones
 void crearPersona(struct Persona personas[], int *n);
 void leerPersonas(const struct Persona personas[], int n);
-void actualizarPersona(struct Persona personas[], int n); // <- Nueva función
+void actualizarPersona(struct Persona personas[], int n);
 void eliminarPersona(struct Persona personas[], int *n);
-int buscarPorId(const struct Persona personas[], int n, int id); // <- Función de apoyo
+int buscarPorId(const struct Persona personas[], int n, int id);
+void buscarPersonaMenu(const struct Persona personas[], int n); // <- TU NUEVA FUNCIÓN
 void limpiarBuffer();
 
 int main() {
     struct Persona personas[MAX_PERSONAS];
     int n = 0;
     int opcion;
-
-    do {
+do {
         printf("\n=== SISTEMA DE GESTION DE PERSONAS ===\n");
         printf("1. Crear Persona\n");
         printf("2. Leer Lista\n");
-        printf("3. Modificar Persona\n"); // <- Nueva opción
-        printf("4. Eliminar Persona\n");
-        printf("5. Salir\n");
+        printf("3. Modificar Persona\n"); 
+        printf("4. Buscar Persona\n"); // <- TU NUEVA OPCION
+        printf("5. Eliminar Persona\n");
+        printf("6. Salir\n");
         printf("Seleccione una opcion: ");
         
         if (scanf("%d", &opcion) != 1) {
@@ -48,15 +49,18 @@ int main() {
                 actualizarPersona(personas, n);
                 break;
             case 4:
-                eliminarPersona(personas, &n);
+                buscarPersonaMenu(personas, n); // <- LLAMADA A TU FUNCIÓN
                 break;
             case 5:
+                eliminarPersona(personas, &n);
+                break;
+            case 6:
                 printf("Saliendo del sistema...\n");
                 break;
             default:
                 printf("Opcion invalida. Intente de nuevo.\n");
         }
-    } while(opcion != 5);
+    } while(opcion != 6);
 
     return 0;
 }
@@ -171,4 +175,26 @@ void eliminarPersona(struct Persona personas[], int *n) {
 void limpiarBuffer() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
+}
+//Nueva Funcion: Buscar y mostrar los datos dde una personas especifica 
+void buscarPersonaMenu(const struct Persona personas[], int n) {
+    int id, indice;
+
+    printf("\n--- Buscar Persona ---\n");
+    if (n == 0) {
+        printf("No hay registros en el sistema para buscar.\n");
+        return;
+    }
+
+    printf("Ingrese el ID a buscar: ");
+    scanf("%d", &id);
+
+    // Reutilizas la función de tu compañero
+    indice = buscarPorId(personas, n, id);
+
+    if (indice != -1) {
+        printf("¡Encontrado! -> ID: %d | Nombre: %s\n", personas[indice].id, personas[indice].nombre);
+    } else {
+        printf("Error: No existe ninguna persona registrada con el ID %d.\n", id);
+    }
 }
