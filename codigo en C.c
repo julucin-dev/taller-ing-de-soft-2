@@ -1,4 +1,3 @@
-```c
 #include <stdio.h>
 #include <string.h>
 
@@ -14,8 +13,8 @@ void crearPersona(struct Persona personas[], int *n);
 void leerPersonas(const struct Persona personas[], int n);
 void actualizarPersona(struct Persona personas[], int n);
 void eliminarPersona(struct Persona personas[], int *n);
-void buscarPersonaMenu(const struct Persona personas[], int n);
 int buscarPorId(const struct Persona personas[], int n, int id);
+void buscarPersonaMenu(const struct Persona personas[], int n);
 void limpiarBuffer();
 
 int main() {
@@ -40,7 +39,7 @@ int main() {
             continue;
         }
 
-        switch(opcion) {
+        switch (opcion) {
             case 1:
                 crearPersona(personas, &n);
                 break;
@@ -73,17 +72,19 @@ int main() {
                 printf("Opcion invalida. Intente de nuevo.\n");
         }
 
-    } while(opcion != 7);
+    } while (opcion != 7);
 
     return 0;
 }
 
 int buscarPorId(const struct Persona personas[], int n, int id) {
-    for(int i = 0; i < n; i++) {
-        if(personas[i].id == id) {
+
+    for (int i = 0; i < n; i++) {
+        if (personas[i].id == id) {
             return i;
         }
     }
+
     return -1;
 }
 
@@ -114,7 +115,7 @@ void crearPersona(struct Persona personas[], int *n) {
           sizeof(personas[*n].nombre),
           stdin);
 
-    personas[*n].nombre[strcspn(personas[*n].nombre,"\n")] = 0;
+    personas[*n].nombre[strcspn(personas[*n].nombre, "\n")] = '\0';
 
     (*n)++;
 
@@ -125,12 +126,12 @@ void leerPersonas(const struct Persona personas[], int n) {
 
     printf("\n--- Lista de Personas ---\n");
 
-    if(n == 0) {
+    if (n == 0) {
         printf("No hay registros.\n");
         return;
     }
 
-    for(int i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++) {
         printf("[%d] ID: %d | Nombre: %s\n",
                i + 1,
                personas[i].id,
@@ -144,7 +145,7 @@ void actualizarPersona(struct Persona personas[], int n) {
 
     printf("\n--- Modificar Persona ---\n");
 
-    if(n == 0) {
+    if (n == 0) {
         printf("No hay registros para modificar.\n");
         return;
     }
@@ -154,7 +155,7 @@ void actualizarPersona(struct Persona personas[], int n) {
 
     indice = buscarPorId(personas, n, id);
 
-    if(indice != -1) {
+    if (indice != -1) {
 
         printf("Datos actuales -> ID: %d | Nombre: %s\n",
                personas[indice].id,
@@ -168,7 +169,7 @@ void actualizarPersona(struct Persona personas[], int n) {
               sizeof(personas[indice].nombre),
               stdin);
 
-        personas[indice].nombre[strcspn(personas[indice].nombre,"\n")] = 0;
+        personas[indice].nombre[strcspn(personas[indice].nombre, "\n")] = '\0';
 
         printf("Registro actualizado correctamente.\n");
 
@@ -184,7 +185,7 @@ void eliminarPersona(struct Persona personas[], int *n) {
 
     printf("\n--- Eliminar Persona ---\n");
 
-    if(*n == 0) {
+    if (*n == 0) {
         printf("No hay registros para eliminar.\n");
         return;
     }
@@ -194,9 +195,9 @@ void eliminarPersona(struct Persona personas[], int *n) {
 
     indice = buscarPorId(personas, *n, id);
 
-    if(indice != -1) {
+    if (indice != -1) {
 
-        for(int j = indice; j < *n - 1; j++) {
+        for (int j = indice; j < *n - 1; j++) {
             personas[j] = personas[j + 1];
         }
 
@@ -216,7 +217,7 @@ void buscarPersonaMenu(const struct Persona personas[], int n) {
 
     printf("\n--- Buscar Persona por ID ---\n");
 
-    if(n == 0) {
+    if (n == 0) {
         printf("No existen registros.\n");
         return;
     }
@@ -226,7 +227,7 @@ void buscarPersonaMenu(const struct Persona personas[], int n) {
 
     indice = buscarPorId(personas, n, id);
 
-    if(indice != -1) {
+    if (indice != -1) {
 
         printf("\nRegistro encontrado\n");
         printf("ID: %d\n", personas[indice].id);
@@ -242,6 +243,5 @@ void limpiarBuffer() {
 
     int c;
 
-    while((c = getchar()) != '\n' && c != EOF);
+    while ((c = getchar()) != '\n' && c != EOF);
 }
-```
